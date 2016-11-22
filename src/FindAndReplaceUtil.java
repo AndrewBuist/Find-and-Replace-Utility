@@ -24,8 +24,8 @@ public class FindAndReplaceUtil {
 		ArrayList<String> pathList;
 		
 		try{
-			mapList = readCSV(args[args.length-2]); 	    //Read the CSV of the map
-			outputPath = args[args.length-1];				//Read the input for output path
+			mapList = readCSV(args[args.length-2]);                 //Read the CSV of the map
+			outputPath = args[args.length-1];                       //Read the input for output path
 			pathList = createPathList((path = Arrays.copyOfRange(args,0,(args.length)-2)));  //Create list of strings for all possible output CSVs	
 		}
 		catch(ArrayIndexOutOfBoundsException e){			//Ask for paths if none provided
@@ -40,7 +40,7 @@ public class FindAndReplaceUtil {
 			pathList = createPathList(path);
 		}
 		
-		for(int i=0; i<pathList.size(); i++){					//Run for every CSV file in pathList
+		for(int i=0; i<pathList.size(); i++){                            //Run for every CSV file in pathList
 			findAndReplace(outputPath,mapList,readCSV(pathList.get(i)),pathList.get(i));
 		}
 	}
@@ -52,10 +52,10 @@ public class FindAndReplaceUtil {
 	private static ArrayList<String> createPathList(String[] paths){
 		ArrayList<String> pathList = new ArrayList<String>();
 		for(int i=0; i<(paths.length); i++){ 					//All inputs apart excluding the map and target directory
-			if(paths[i].contains(".csv")){						//Reading all .CSV files
+			if(paths[i].contains(".csv")){					//Reading all .CSV files
 				pathList.add(paths[i]);
 			}
-			else{												//Reading directory
+			else{								//Reading directory
 				File[] files = new File(paths[i]).listFiles();
 				for (File file : files) {
 				    if (file.isFile()) {
@@ -92,21 +92,21 @@ public class FindAndReplaceUtil {
 	
 	//Modifies CSV values by checking from a map
 	private static void findAndReplace(String outputPath, List<String[]> mapList, List<String[]> csvList, String fileName) throws IOException{
-		for(int i=0;i<csvList.size();i++){								//Loop through each line of CSV
+		for(int i=0;i<csvList.size();i++){							//Loop through each line of CSV
 			for(int j=0;j<csvList.get(i).length;j++){					//Loop through each string of line
-				for(int k=0;k<mapList.size();k++){						//Loop through each row of map
-					if(mapList.get(k)[0].equals(csvList.get(i)[j])){ 	//Check map key vs CSV value
-						if(mapList.get(k).length == 3){					//Check for boolean flag to delete
+				for(int k=0;k<mapList.size();k++){					//Loop through each row of map
+					if(mapList.get(k)[0].equals(csvList.get(i)[j])){ 		//Check map key vs CSV value
+						if(mapList.get(k).length == 3){				//Check for boolean flag to delete
 							if(mapList.get(k)[2].toLowerCase().equals("false")){
-								csvList.remove(i);						//Empty current row
+								csvList.remove(i);			//Empty current row
 							}
 							else{
 								String[] tempArray = csvList.get(i);	//Create a temp. row from CSV values
-								tempArray[j] = mapList.get(k)[1];		//Modify the temp. row with the map value
-								csvList.set(i,tempArray);				//Replace initial row from CSV with modified row
+								tempArray[j] = mapList.get(k)[1];	//Modify the temp. row with the map value
+								csvList.set(i,tempArray);		//Replace initial row from CSV with modified row
 							}
 						}
-					}													//above can be improved
+					}								//above can be improved
 				}
 			}
 		}
